@@ -1,4 +1,4 @@
-package org.epitech.bank_server;
+package edu.epitech.bank_server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
