@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Base64;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "cheques")
