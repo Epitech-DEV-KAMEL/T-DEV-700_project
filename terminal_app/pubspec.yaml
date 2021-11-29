@@ -38,6 +38,7 @@ dependencies:
   qr_code_scanner: ^0.6.1
   shared_preferences: ^2.0.9
   equatable: ^2.0.3
+  dartz: ^0.10.0
 
 dev_dependencies:
   flutter_test:
