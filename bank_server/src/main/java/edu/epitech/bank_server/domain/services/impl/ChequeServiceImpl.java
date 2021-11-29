@@ -1,6 +1,7 @@
 package edu.epitech.bank_server.domain.services.impl;
 
 import com.google.common.hash.Hashing;
+import edu.epitech.bank_server.core.errors.PaymentRefused;
 import edu.epitech.bank_server.data.repositories.ChequeRepository;
 import edu.epitech.bank_server.data.repositories.LocalityRepository;
 import edu.epitech.bank_server.domain.entities.Cheque;
@@ -59,7 +60,7 @@ public class ChequeServiceImpl implements ChequeService {
         String[] tokenParts = token.split("\\.");
 
         if (tokenParts.length != 4)
-            return false;
+            throw new PaymentRefused("Invalid Cheque");
 
         String id_base64 = tokenParts[0];
         String localityId_base64 = tokenParts[1];

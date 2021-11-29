@@ -6,6 +6,6 @@ import edu.epitech.bank_server.domain.entities.Order;
 
 public interface BankService {
     boolean isValidCard(BankCard card);
-    boolean payWithCard(BankCard card, Order order);
-    boolean payWithCheque(Cheque cheque, Order order);
+    void payWithCard(BankCard card, Order order);
+    void payWithCheque(Cheque cheque, Order order);
 }

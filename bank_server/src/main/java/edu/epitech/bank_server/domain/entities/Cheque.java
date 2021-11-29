@@ -15,9 +15,6 @@ public class Cheque {
     private Long id;
     private String token;
     private Double amount;
-
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     private Boolean used = false;
 
     public Cheque(Double amount) {
