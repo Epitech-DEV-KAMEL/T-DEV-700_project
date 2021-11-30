@@ -1,4 +1,6 @@
 
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 import 'package:terminal_app/core/entities/article.dart';
 import 'package:terminal_app/features/domain/entities/cart_article.dart';
@@ -6,6 +8,7 @@ import 'package:terminal_app/features/domain/entities/cart_article.dart';
 class Cart extends ChangeNotifier {
   final List<CartArticle> _articles = [];
 
+  UnmodifiableListView<CartArticle> get items => UnmodifiableListView(_articles);
   double get totalPrice => _articles.fold(0, (total, current) => total + (current.price * current.amount));
 
   void add(Article article, int amount) {
