@@ -16,4 +16,9 @@ class Article extends Equatable {
 
   @override
   List<Object?> get props => [id];
+
+  @override
+  String toString() {
+    return 'Article { id: $id, price: $price, name: $name, $description: $description }';
+  }
 }
