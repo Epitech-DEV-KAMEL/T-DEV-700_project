@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:terminal_app/core/utils/formaters.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';

@@ -1,12 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/presentation/widget/cart_list/cart_article_item.dart';
 import 'package:terminal_app/features/presentation/widget/cart_list/cart_list_footer.dart';
-
-import 'cart_total.dart';
 
 class CartList extends StatelessWidget {
   const CartList({ Key? key }) : super(key: key);

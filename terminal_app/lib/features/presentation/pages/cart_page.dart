@@ -3,10 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:terminal_app/core/entities/article.dart';
-import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/presentation/widget/cart_list/cart_list.dart';
-import 'package:terminal_app/features/presentation/widget/cart_list/cart_total.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({ Key? key }) : super(key: key);
