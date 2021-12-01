@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/core/utils/formaters.dart';
+import 'package:terminal_app/core/widgets/numeric_input/numeric_input.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/domain/entities/cart_article.dart';
-import 'package:terminal_app/features/presentation/widget/numeric_input/numeric_input.dart';
 
 class CartArticleItem extends StatelessWidget {
   const CartArticleItem({ 
@@ -127,6 +127,7 @@ class CartArticleItemDescription extends StatelessWidget {
                 ),  
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   OutlinedButton(
                     onPressed: () {
@@ -134,7 +135,7 @@ class CartArticleItemDescription extends StatelessWidget {
                     }, 
                     child: Icon(
                       Icons.delete,
-                      size: 14,
+                      size: 16,
                       color: ColorTheme.primary,
                     ),
                     style: OutlinedButton.styleFrom(

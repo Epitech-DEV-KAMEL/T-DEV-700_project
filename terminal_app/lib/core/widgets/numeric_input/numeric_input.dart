@@ -18,11 +18,24 @@ class NumericInput extends StatefulWidget {
   _NumericInputState createState() => _NumericInputState();
 }
 
-class _NumericInputState extends State<NumericInput> {  
+class _NumericInputState extends State<NumericInput> { 
+
+  void _increment() {
+    int newValue = widget.value + 1;
+    if (widget.maximum != null && widget.maximum! < newValue) return;
+    widget.onUpdate(newValue);
+  }
+
+  void _decrement() {
+    int newValue = widget.value - 1;
+    if (widget.minimum != null && widget.minimum! > newValue) return;
+    widget.onUpdate(newValue);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black12),
         borderRadius: const BorderRadius.all(Radius.circular(6.0))
@@ -31,7 +44,7 @@ class _NumericInputState extends State<NumericInput> {
         children: [
           InkWell(
             onTap: () { 
-              widget.onUpdate(widget.value - 1);
+              _decrement();
             },
             child: const Icon(
               Icons.remove,
@@ -39,17 +52,17 @@ class _NumericInputState extends State<NumericInput> {
               color: Colors.deepOrange,
             ),
           ),
-          const Padding(padding: EdgeInsets.only(left: 3.0)),
+          const Padding(padding: EdgeInsets.only(left: 6.0)),
           Text(
             '${widget.value}',
             style: const TextStyle(
               fontWeight: FontWeight.bold
             ),
           ),
-          const Padding(padding: EdgeInsets.only(left: 3.0)),
+          const Padding(padding: EdgeInsets.only(left: 6.0)),
           InkWell(
             onTap: () {
-              widget.onUpdate(widget.value + 1);
+              _increment();
             },
             child: const Icon(
               Icons.add,
