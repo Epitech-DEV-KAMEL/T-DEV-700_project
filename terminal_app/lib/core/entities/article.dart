@@ -6,16 +6,25 @@ class Article extends Equatable {
   final String name;
   final String description;
   final double price;
-  final bool isAvailable;
 
   const Article({
     required this.id,
     required this.name,
     required this.description,
     required this.price,
-    required this.isAvailable
   });
 
   @override
   List<Object?> get props => [id];
+
+  Article.fromJson(Map<String, dynamic> json)
+    : id = json['id'],
+      name = json['name'],
+      description = json['description'],
+      price = json['price'];
+
+  @override
+  String toString() {
+    return 'Article { id: $id, price: $price, name: $name, $description: $description }';
+  }
 }
