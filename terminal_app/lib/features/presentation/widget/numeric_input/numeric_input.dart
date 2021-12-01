@@ -5,68 +5,56 @@ class NumericInput extends StatefulWidget {
     Key? key,
     this.minimum,
     this.maximum,
-    this.initNumber = 0,
+    this.value = 0,
     required this.onUpdate,
   }) : super(key: key);
 
   final int? minimum;
   final int? maximum;
-  final int initNumber;
+  final int value;
   final Function(int) onUpdate;
 
   @override
   _NumericInputState createState() => _NumericInputState();
 }
 
-class _NumericInputState extends State<NumericInput> {
-  int _value = 0;
-
-  int get value => _value;
-
-  @override
-  void initState() {
-    _value = widget.initNumber;
-    super.initState();
-  }
-  
+class _NumericInputState extends State<NumericInput> {  
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(6.0),
+      padding: const EdgeInsets.all(2.0),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black38),
+        border: Border.all(color: Colors.black12),
         borderRadius: const BorderRadius.all(Radius.circular(6.0))
       ),
       child: Row(
         children: [
           InkWell(
             onTap: () { 
-              setState(() {
-                _value--;
-              });
-              widget.onUpdate(_value);
+              widget.onUpdate(widget.value - 1);
             },
             child: const Icon(
               Icons.remove,
-              color: Colors.black,
+              size: 16.0,
+              color: Colors.deepOrange,
             ),
           ),
+          const Padding(padding: EdgeInsets.only(left: 3.0)),
           Text(
-            '$_value',
+            '${widget.value}',
             style: const TextStyle(
               fontWeight: FontWeight.bold
             ),
           ),
+          const Padding(padding: EdgeInsets.only(left: 3.0)),
           InkWell(
-            onTap: () { 
-              setState(() {
-                _value++;
-              });
-              widget.onUpdate(_value);
+            onTap: () {
+              widget.onUpdate(widget.value + 1);
             },
             child: const Icon(
               Icons.add,
-              color: Colors.black,
+              size: 16.0,
+              color: Colors.deepOrange,
             ),
           )
         ],

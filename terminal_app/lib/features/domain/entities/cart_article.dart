@@ -1,20 +1,19 @@
 
-import 'package:equatable/equatable.dart';
 import 'package:terminal_app/core/entities/article.dart';
 
-class CartArticle extends Equatable {
+class CartArticle {
   final int id;
   final String name;
   final String description;
   final double price;
-  final int amount;
+  int amount;
 
-  const CartArticle({
+  CartArticle({
     required this.id, 
     required this.name, 
     required this.description, 
     required this.price, 
-    required this.amount
+    this.amount = 0
   });
 
   static CartArticle fromEntity(Article article, int amount) {
@@ -27,26 +26,18 @@ class CartArticle extends Equatable {
     );
   }
 
-  CartArticle copyWith({int? amount}) {
-    return CartArticle(
-      id: id,
-      name: name,
-      description: description,
-      price: price,
-      amount: amount ?? this.amount
-    );
-  }
+  bool equals(Object? o1, Object? o2) {
+    if (o1 == null) return false;
+    if (o2 == null) return false;
 
-  CartArticle add(int amount) {
-    return CartArticle(
-      id: id,
-      name: name,
-      description: description,
-      price: price,
-      amount: this.amount + amount
-    );
-  }
+    if (o1 is! CartArticle) return false;
+    if (o2 is! CartArticle) return false;
 
-  @override
-  List<Object?> get props => [id, amount];  
+    CartArticle cartArticle1 = o1;
+    CartArticle cartArticle2 = o2;
+
+    if (cartArticle1.id != cartArticle2.id) return false;
+    if (cartArticle1.amount != cartArticle2.amount) return false;
+    return true;
+  }
 }

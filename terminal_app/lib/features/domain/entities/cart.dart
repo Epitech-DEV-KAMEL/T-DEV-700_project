@@ -18,8 +18,7 @@ class Cart extends ChangeNotifier {
     bool alreadyInCart = articleIndex != -1;
 
     if (alreadyInCart) {
-      CartArticle cartArticle = _articles[articleIndex];
-      _articles[articleIndex] = cartArticle.add(amount);
+      _articles[articleIndex].amount += amount;
     } else {
       _articles.add(CartArticle.fromEntity(article, amount));
     }
@@ -27,22 +26,19 @@ class Cart extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCartArticleAmount(CartArticle article, int amount) {
+  void updateCartArticleAmount(int articleIndex, int amount) {
     assert(amount >= 0);
 
     if (amount == 0) {
-      removeCartArticle(article);
+      removeCartArticle(articleIndex);
     } else {
-      int articleIndex = _articles.indexOf(article);
-      CartArticle cartArticle = _articles[articleIndex];
-      _articles[articleIndex] = cartArticle.copyWith(amount: amount);
+      _articles[articleIndex].amount = amount;
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
-  void removeCartArticle(CartArticle cartArticle) {
-    _articles.remove(cartArticle);
+  void removeCartArticle(int articleIndex) {
+    _articles.removeAt(articleIndex);
     notifyListeners();
   }
 

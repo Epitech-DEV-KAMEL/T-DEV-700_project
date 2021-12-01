@@ -11,12 +11,16 @@ class CartList extends StatelessWidget {
   Widget build(BuildContext context) {
     Cart cart = context.watch<Cart>();
     
-    return ListView.builder(
-      itemCount: cart.items.length,
-      itemBuilder: (context, index) => CartArticleItem(
-        cart: cart, 
-        article: cart.items[index]
-      )
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+        itemCount: cart.items.length,
+        itemBuilder: (context, index) => CartArticleItem(
+          cart: cart, 
+          article: cart.items[index],
+          articleIndex: index
+        )
+      ),
     );
   }
 }
