@@ -2,7 +2,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/painting.dart';
+import 'package:terminal_app/core/themes/color_theme.dart';
+import 'package:terminal_app/core/utils/formaters.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/domain/entities/cart_article.dart';
 import 'package:terminal_app/features/presentation/widget/numeric_input/numeric_input.dart';
@@ -27,6 +29,7 @@ class CartArticleItem extends StatelessWidget {
         height: 120,
         child: Container(
           decoration: BoxDecoration(
+            color: Colors.white,
             border: Border.all(
               color: Colors.black12
             ),
@@ -81,8 +84,6 @@ class CartArticleItemDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NumberFormat numFormat = NumberFormat('####.##', 'en_US');
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -119,19 +120,37 @@ class CartArticleItemDescription extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                '${numFormat.format(article.price)} €',
+                '${Formaters.price.format(article.price)} €',
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold
                 ),  
               ),
-              NumericInput(
-                minimum: 0,
-                value: article.amount,
-                onUpdate: (amount) {
-                  cart.updateCartArticleAmount(articleIndex, amount);
-                }
-              )
+              Row(
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      cart.removeCartArticle(articleIndex);
+                    }, 
+                    child: Icon(
+                      Icons.delete,
+                      size: 14,
+                      color: ColorTheme.primary,
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.all(2.0)
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 10.0)),
+                  NumericInput(
+                    minimum: 0,
+                    value: article.amount,
+                    onUpdate: (amount) {
+                      cart.updateCartArticleAmount(articleIndex, amount);
+                    }
+                  )
+                ],
+              ),
             ],
           ),
         )
