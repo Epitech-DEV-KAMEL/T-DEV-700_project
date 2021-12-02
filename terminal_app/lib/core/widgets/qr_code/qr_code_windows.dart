@@ -30,9 +30,6 @@ class _QRCodeWindowsState extends State<QRCodeWindows> {
     this.controller = controller;
     controller.scannedDataStream.listen((scannedData) {
       controller.pauseCamera();
-      print('=========================================');
-      print(scannedData.format);
-      print(scannedData.code);
       Navigator.pop(context, scannedData);
     });
   }

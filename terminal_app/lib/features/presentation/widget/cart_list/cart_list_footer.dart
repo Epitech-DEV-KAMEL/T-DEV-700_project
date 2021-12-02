@@ -6,9 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:terminal_app/core/entities/article.dart';
 import 'package:terminal_app/core/themes/color_theme.dart';
+import 'package:terminal_app/core/widgets/qr_code/qr_code_windows.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
+import 'package:terminal_app/features/presentation/pages/payment_page.dart';
 import 'package:terminal_app/features/presentation/widget/cart_list/cart_total.dart';
-import 'package:terminal_app/features/presentation/widget/qr_code/qr_code_windows.dart';
 
 class CartListFooter extends StatelessWidget {
   const CartListFooter({ Key? key }) : super(key: key);
@@ -68,7 +69,9 @@ class CartListFooter extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     style: _customButtonStyle,
-                    onPressed: () {}, 
+                    onPressed: () {
+                      _navigateToPayment(context);
+                    }, 
                     child: const Text(
                       'Buy Now',
                       style: TextStyle(
@@ -99,5 +102,12 @@ class CartListFooter extends StatelessWidget {
 
     Article article = Article.fromJson(jsonDecode(articleJson));
     cart.add(article, 1);
+  }
+
+  void _navigateToPayment(BuildContext context) async {
+    await Navigator.push(
+      context, 
+      MaterialPageRoute(builder: (context) => const PaymentPage())
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:terminal_app/core/entities/article.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
+import 'package:terminal_app/features/presentation/widget/app_bar/custom_app_bar.dart';
 import 'package:terminal_app/features/presentation/widget/cart_list/cart_list.dart';
 
 class CartPage extends StatefulWidget {
@@ -19,20 +20,7 @@ class _CartPageState extends State<CartPage> {
     Cart cart = context.watch<Cart>();
     
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        toolbarHeight: 80,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-        title: const Text(
-          'My Cart', 
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'My Cart'),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           int articleId = Random().nextInt(11);
