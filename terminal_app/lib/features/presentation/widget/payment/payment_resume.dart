@@ -61,7 +61,7 @@ class PaymentResume extends StatelessWidget {
                   )
                 ),
                 Text(
-                  '${Formaters.price.format(totalArticlesPrice)} €',
+                  '${Formaters.price.format(totalArticlesPrice - tax)} €',
                   style: const TextStyle(
                     color: Colors.black45,
                   )
@@ -101,7 +101,7 @@ class PaymentResume extends StatelessWidget {
                   )
                 ),
                 Text(
-                  '${Formaters.price.format(totalArticlesPrice + tax)} €',
+                  '${Formaters.price.format(totalArticlesPrice)} €',
                   style: const TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
