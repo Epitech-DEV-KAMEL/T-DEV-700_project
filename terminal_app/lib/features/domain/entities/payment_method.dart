@@ -1,2 +1,0 @@
-
-enum PaymentMethod { cart, cheque }

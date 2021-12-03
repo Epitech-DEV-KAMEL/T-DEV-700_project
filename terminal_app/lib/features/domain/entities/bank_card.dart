@@ -6,7 +6,7 @@ class BankCard extends Equatable {
   final String cardholderName;
   final String cardSecurityCode;
   final String brandMark;
-  final DateTime expirationDate;
+  final String expirationDate;
 
   const BankCard({
     required this.accountNumber,

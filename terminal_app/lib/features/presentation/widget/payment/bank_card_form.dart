@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/core/themes/common_style.dart';
-import 'package:terminal_app/core/utils/validators.dart';
 import 'package:terminal_app/features/domain/entities/bank_card.dart';
 
 class BankCardForm extends StatefulWidget {
@@ -13,11 +15,25 @@ class BankCardForm extends StatefulWidget {
 class _BankCardFormState extends State<BankCardForm> {
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController accountNumberController = TextEditingController();
-  final TextEditingController cardSecurityCodeController = TextEditingController();
-  final TextEditingController cardholderController = TextEditingController();
-  final TextEditingController monthExpirationController = TextEditingController();
-  final TextEditingController yearExpirationController = TextEditingController();
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  bool isCvvFocused = false;
+  CardType brandMark = CardType.visa;
+
+  OutlineInputBorder? border;
+
+  @override
+  void initState() {
+    border = const OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.black12
+      ),
+    );
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,140 +41,126 @@ class _BankCardFormState extends State<BankCardForm> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const Text(
-                  'Enter your credit card information',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CreditCardWidget(
+                cardNumber: cardNumber,
+                expiryDate: expiryDate, 
+                cardHolderName: cardHolderName,
+                cvvCode: cvvCode,
+                showBackView: isCvvFocused, 
+                glassmorphismConfig: Glassmorphism(
+                  blurX: 1.0,
+                  blurY: 1.0,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.black,
+                      Colors.black.withOpacity(0.8),
+                      Colors.black,
+                    ],
+                    stops: const <double>[
+                      0.4,
+                      0.3,
+                      0,
+                    ],
                   ),
                 ),
-                const Padding(padding: EdgeInsets.only(bottom: 30.0)),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 3,
-                      child: TextFormField(
-                        controller: accountNumberController,
-                        keyboardType: TextInputType.number,
-                        decoration: CommonStyle.textFieldStyle(
-                          icon: const Icon(Icons.credit_card),
-                          placeholder: 'XXXX XXXX XXXX XXXX',
-                          label: 'Bank account number'
-                        ),
-                        validator: (String? value) {
-                          if (value == null) return '';
-                          String valueWithoutSpace = value.replaceAll(' ', '');
-                          if (!Validators.containOnlyDigit(valueWithoutSpace)) return '';
-                          if (valueWithoutSpace.length != 16) return '';
-                          return null;
-                        }
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(left: 10.0)),
-                    Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        controller: cardSecurityCodeController,
-                        keyboardType: TextInputType.number,
-                        decoration: CommonStyle.textFieldStyle(
-                          placeholder: 'XXX',
-                          label: 'Code'
-                        ),
-                        validator: (String? value) {
-                          if (value == null) return '';
-                          String valueWithoutSpace = value.replaceAll(' ', '');
-                          if (!Validators.containOnlyDigit(valueWithoutSpace)) return '';
-                          if (valueWithoutSpace.length != 3) return '';
-                          return null;
-                        }
-                      ),
-                    )
-                  ],
+                animationDuration: const Duration(milliseconds: 1000),
+                height: 225.0,
+                obscureCardCvv: true,
+                obscureCardNumber: true,
+                cardBgColor: Colors.black,
+                onCreditCardWidgetChange: (CreditCardBrand cardBrand) {  },          
+              ),
+              CreditCardForm(
+                formKey: _formKey,
+                obscureCvv: true,
+                obscureNumber: true,
+                cardNumber: cardNumber,
+                cvvCode: cvvCode,
+                isHolderNameVisible: true,
+                isCardNumberVisible: true,
+                isExpiryDateVisible: true,
+                cardHolderName: cardHolderName,
+                expiryDate: expiryDate,
+                themeColor: ColorTheme.primary as Color,
+                textColor: Colors.black,
+                cardNumberDecoration: InputDecoration(
+                  labelText: 'Number',
+                  hintText: 'XXXX XXXX XXXX XXXX',
+                  hintStyle: const TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(color: Colors.black),
+                  focusedBorder: border,
+                  enabledBorder: border,
                 ),
-                const Padding(padding: EdgeInsets.only(bottom: 10.0)),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 3,
-                      child: TextFormField(
-                        controller: cardholderController,
-                        keyboardType: TextInputType.name,
-                        decoration: CommonStyle.textFieldStyle(
-                          placeholder: 'Mr. Joe',
-                          label: 'Cardholder Name'
-                        ),
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(left: 10.0)),
-                    Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        controller: monthExpirationController,
-                        keyboardType: TextInputType.number,
-                        decoration: CommonStyle.textFieldStyle(
-                          placeholder: 'MM',
-                          label: 'Month'
-                        ),
-                        validator: (String? value) {
-                          if (value == null) return '';
-                          String valueWithoutSpace = value.replaceAll(' ', '');
-                          if (!Validators.containOnlyDigit(valueWithoutSpace)) return '';;
-                          int numValue = int.parse(valueWithoutSpace);
-                          if (numValue < 1 && numValue > 12) return '';; 
-                        },
-                      ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(left: 10.0)),
-                    Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        controller: yearExpirationController,
-                        keyboardType: TextInputType.number,
-                        decoration: CommonStyle.textFieldStyle(
-                          placeholder: 'YY',
-                          label: 'Year'
-                        ),
-                        validator: (String? value) {
-                          if (value == null) return '';;
-                          String valueWithoutSpace = value.replaceAll(' ', '');
-                          if (!Validators.containOnlyDigit(valueWithoutSpace)) return '';;
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
+                expiryDateDecoration: InputDecoration(
+                  hintStyle: const TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(color: Colors.black),
+                  focusedBorder: border,
+                  enabledBorder: border,
+                  labelText: 'Expired Date',
+                  hintText: 'XX/XX',
                 ),
-                const Padding(padding: EdgeInsets.only(bottom: 20.0)),
-                ElevatedButton(
-                  style: CommonStyle.elevatedButton(),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pop(
-                        context,
-                        BankCard(
-                          accountNumber: accountNumberController.text, 
-                          cardholderName: cardholderController.text, 
-                          cardSecurityCode: cardSecurityCodeController.text, 
-                          brandMark: 'Visa', 
-                          expirationDate: DateTime(int.parse(yearExpirationController.text), int.parse(monthExpirationController.text))
-                        )
-                      );
-                    }
-                  },
-                  child: const Text('Save'),
+                cvvCodeDecoration: InputDecoration(
+                  hintStyle: const TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(color: Colors.black),
+                  focusedBorder: border,
+                  enabledBorder: border,
+                  labelText: 'CVV',
+                  hintText: 'XXX',
                 ),
-              ],
+                cardHolderDecoration: InputDecoration(
+                  hintStyle: const TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(color: Colors.black),
+                  focusedBorder: border,
+                  enabledBorder: border,
+                  labelText: 'Card Holder',
+                ),
+                onCreditCardModelChange: _onCreditCardModelChange,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: ElevatedButton(
+                style: CommonStyle.elevatedButton(),
+                onPressed: () => _closePopupAndReturnCreditCardInformation(context),
+                child: const Text(
+                  'Add',
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
             ),
-          ),
+              ),
+            ],
+          )
         ),
       ),
     );
+  }
+
+  void _onCreditCardModelChange(CreditCardModel cardModel) {
+    setState(() {
+      cardNumber = cardModel.cardNumber;
+      cardHolderName = cardModel.cardHolderName;
+      cvvCode = cardModel.cvvCode;
+      expiryDate = cardModel.expiryDate;
+      isCvvFocused = cardModel.isCvvFocused;
+    });
+  }
+
+  void _closePopupAndReturnCreditCardInformation(BuildContext context) {
+    BankCard bankCard = BankCard(
+      accountNumber: cardNumber,
+      brandMark: 'visa',
+      cardSecurityCode: cvvCode,
+      cardholderName: cardHolderName,
+      expirationDate: expiryDate
+    );
+
+    Navigator.pop(context, bankCard);
   }
 }
