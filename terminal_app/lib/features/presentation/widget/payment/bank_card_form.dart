@@ -161,6 +161,8 @@ class _BankCardFormState extends State<BankCardForm> {
       expirationDate: expiryDate
     );
 
+    // TODO: verify card validy from server API
+
     Navigator.pop(context, bankCard);
   }
 }

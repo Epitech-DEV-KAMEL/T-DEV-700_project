@@ -12,6 +12,11 @@ class Cheque extends Equatable {
     required this.amount
   });
 
+  Cheque.fromJson(Map<String, dynamic> json)
+    : id = json['id'],
+      token = json['token'],
+      amount = json['amount'];
+
   @override
   List<Object?> get props => [id, token, amount];  
 }

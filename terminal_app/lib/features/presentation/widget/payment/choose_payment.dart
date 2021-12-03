@@ -1,6 +1,11 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:terminal_app/core/widgets/qr_code/qr_code_windows.dart';
 import 'package:terminal_app/features/domain/entities/bank_card.dart';
+import 'package:terminal_app/features/domain/entities/cheque.dart';
 import 'package:terminal_app/features/presentation/widget/payment/bank_card_form.dart';
 
 class ChoosePayment extends StatelessWidget {
@@ -41,6 +46,7 @@ class ChoosePayment extends StatelessWidget {
               ),
               OutlinedButton(
                 onPressed: () {
+                  _navigateToQRCodeScanner(context);
                 }, 
                 child: const Text(
                   'Pay by Cheque'
@@ -65,4 +71,32 @@ class ChoosePayment extends StatelessWidget {
       Navigator.pop(context);
     }
   }
+
+  void _navigateToQRCodeScanner(BuildContext context) async {
+    Barcode? result = await Navigator.push(
+      context, 
+      MaterialPageRoute(builder: (context) => const QRCodeWindows())
+    );
+
+    if (result == null || result.code == null) {
+      Navigator.pop(context);
+      return;
+    }
+
+    String? jsonCheque = result.code;
+
+    Cheque cheque;
+
+    try {
+      cheque = Cheque.fromJson(jsonDecode(jsonCheque as String));
+    } catch (e) {
+      Navigator.pop(context);
+      return;
+    }
+
+    // TODO : validate cheque from server
+
+    Navigator.pop(context, cheque);
+  }
+
 }
