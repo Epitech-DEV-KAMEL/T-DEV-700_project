@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:terminal_app/core/widgets/qr_code/qr_code_windows.dart';
+import 'package:terminal_app/core/widgets/scan_nfc/scan_nfc.dart';
 import 'package:terminal_app/features/domain/entities/bank_card.dart';
 import 'package:terminal_app/features/domain/entities/cheque.dart';
 import 'package:terminal_app/features/presentation/widget/payment/bank_card_form.dart';
@@ -39,6 +40,7 @@ class ChoosePayment extends StatelessWidget {
               ),
               OutlinedButton(
                 onPressed: () {
+                  _navigateToNFCScanner(context);
                 }, 
                 child: const Text(
                   'Pay by NFC'
@@ -99,4 +101,10 @@ class ChoosePayment extends StatelessWidget {
     Navigator.pop(context, cheque);
   }
 
+  void _navigateToNFCScanner(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ScanNFC())
+    );
+  }
 }

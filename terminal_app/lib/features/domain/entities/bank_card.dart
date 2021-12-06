@@ -16,6 +16,13 @@ class BankCard extends Equatable {
     required this.expirationDate
   });
 
+  BankCard.fromJson(Map<String, dynamic> json)
+    : accountNumber = json['accountNumber'],
+      cardholderName = json['cardholderName'],
+      cardSecurityCode = json['cardSecurityCode'],
+      brandMark = json['brandMark'],
+      expirationDate = json['expirationDate'];
+
   @override
   List<Object?> get props => [accountNumber, cardholderName, cardSecurityCode, brandMark, expirationDate];
 }
