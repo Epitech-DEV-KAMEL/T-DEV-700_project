@@ -7,6 +7,7 @@ import 'package:terminal_app/features/dto/payment_informations.dart';
 import 'package:terminal_app/features/presentation/widget/app_bar/custom_app_bar.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_method.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_resume.dart';
+import 'package:terminal_app/injection_container.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({Key? key}) : super(key: key);
@@ -75,7 +76,24 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  void _paid(BuildContext context, Cart cart, PaymentInformations paymentInformations) {
-    // TODO : If it success, delete cart and display payment accepted. After 5 seconds return to cart page. Else dispay payment refused. After 5 seconds return to payment page.
+  void _paid(BuildContext context, Cart cart, PaymentInformations paymentInformations) async {
+    var paymentResult = await sl<PayUsecase>().execute(
+      PayParams(cart.items, paymentInformations)
+    );
+
+    paymentResult.fold(
+      (failure) => {
+        // TODO: Fail to contact server - dispay an error. After 2 seconds return to payment page.
+      }, 
+      (isPaid) => {
+        if (isPaid) {
+          cart.clear()
+          // TODO: display payment accepted. After 5 seconds return to cart page.
+        } else {
+          // TODO: display an error and return to payment page after 2 seconds.
+        }
+      }
+    );
+    
   }
 }

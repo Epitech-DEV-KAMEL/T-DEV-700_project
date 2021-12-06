@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:terminal_app/core/entities/article.dart';
 import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/core/widgets/qr_code/qr_code_windows.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
+import 'package:terminal_app/features/domain/usecases/articles/get_article.dart';
 import 'package:terminal_app/features/presentation/pages/payment_page.dart';
 import 'package:terminal_app/features/presentation/widget/cart_list/cart_total.dart';
+import 'package:terminal_app/injection_container.dart';
 
 class CartListFooter extends StatelessWidget {
   const CartListFooter({ Key? key }) : super(key: key);
@@ -99,8 +100,14 @@ class CartListFooter extends StatelessWidget {
     int? articleId = int.tryParse(barcode);
     if (articleId == null) return;
 
-    // TODO: call API to get article info, if true use the following commented code to add article to the cart.
-    // cart.add(article, 1);
+    var fetchResult = await sl<GetArticle>().execute(
+      GetArticleParams(id: articleId)
+    );
+
+    fetchResult.fold(
+      (failure) => null, // TODO: display error message when failing to fetch article 
+      (article) => cart.add(article, 1)
+    );
   }
 
   void _navigateToPayment(BuildContext context) async {

@@ -40,15 +40,12 @@ class ScanNFCState extends State<ScanNFC> {
           String content = ascii
               .decode(record.payload)
               .substring(3); // Remove language prefix "en"
-          print(content);
           Navigator.pop(context, content);
         } catch (e) {
-          print(e.toString());
           Navigator.pop(context);
         }
       },
       onError: (NfcError error) async {
-        print(error);
         Navigator.pop(context);
       },
     );
