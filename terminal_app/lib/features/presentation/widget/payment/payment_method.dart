@@ -6,13 +6,14 @@ import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/features/domain/entities/bank_card.dart';
 import 'package:terminal_app/features/domain/entities/cheque.dart';
 import 'package:terminal_app/features/domain/entities/payment_methods.dart';
+import 'package:terminal_app/features/dto/payment_change_dto.dart';
 import 'package:terminal_app/features/presentation/widget/payment/choose_payment.dart';
 
 class PaymentMethod extends StatefulWidget {
-  const PaymentMethod({ Key? key, this.paymentAdded, this.paymentRemoved }) : super(key: key);
+  const PaymentMethod({ Key? key, this.onPaymentAdded, this.onPaymentRemoved}) : super(key: key);
 
-  final VoidCallback? paymentAdded;
-  final VoidCallback? paymentRemoved;
+  final Function(PaymentInformations)? onPaymentAdded;
+  final VoidCallback? onPaymentRemoved;
 
   @override
   _PaymentMethodState createState() => _PaymentMethodState();
@@ -49,7 +50,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
               color: ColorTheme.primary,
             )
           )
-          : paymentMethod == PaymentMethods.cart ?
+          : paymentMethod == PaymentMethods.card ?
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -139,6 +140,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
       bankCard = null;
       cheque = null;
     });
+    widget.onPaymentRemoved!();
   }
 
   void _showChoosePaimentModalAndAddPaiement(BuildContext context) async {
@@ -150,7 +152,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     if (result == null) return;
     if (result is BankCard) {
       setState(() {
-        paymentMethod = PaymentMethods.cart;
+        paymentMethod = PaymentMethods.card;
         bankCard = result;
       });
     }
@@ -160,5 +162,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
         cheque = result;
       });
     }
+    widget.onPaymentAdded!(
+      PaymentInformations(
+        paymentMethods: bankCard == null ? PaymentMethods.card : PaymentMethods.cheque,
+        card: bankCard, 
+        cheque: cheque
+      )
+    );
   }
 }

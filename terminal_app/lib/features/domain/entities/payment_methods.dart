@@ -1,2 +1,2 @@
 
-enum PaymentMethods { cart, cheque }
+enum PaymentMethods { card, cheque }
