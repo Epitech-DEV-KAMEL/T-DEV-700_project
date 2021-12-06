@@ -96,14 +96,14 @@ class CartListFooter extends StatelessWidget {
       MaterialPageRoute(builder: (context) => const QRCodeWindows())
     );
 
-    // TODO: refrator to load article's information from backend API with the getted ID by the QR Code Windows
-
     if (result == null) return;
-    String? articleJson = (result as Barcode).code;
-    if (articleJson == null) return;
+    String? barcode = (result as Barcode).code;
+    if (barcode == null) return;
+    int? articleId = int.tryParse(barcode);
+    if (articleId == null) return;
 
-    Article article = Article.fromJson(jsonDecode(articleJson));
-    cart.add(article, 1);
+    // TODO: call API to get article info, if true use the following commented code to add article to the cart.
+    // cart.add(article, 1);
   }
 
   void _navigateToPayment(BuildContext context) async {

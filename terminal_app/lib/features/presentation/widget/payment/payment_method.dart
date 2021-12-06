@@ -6,7 +6,7 @@ import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/features/domain/entities/bank_card.dart';
 import 'package:terminal_app/features/domain/entities/cheque.dart';
 import 'package:terminal_app/features/domain/entities/payment_methods.dart';
-import 'package:terminal_app/features/dto/payment_change_dto.dart';
+import 'package:terminal_app/features/dto/payment_informations.dart';
 import 'package:terminal_app/features/presentation/widget/payment/choose_payment.dart';
 
 class PaymentMethod extends StatefulWidget {

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:terminal_app/core/themes/common_style.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
-import 'package:terminal_app/features/dto/payment_change_dto.dart';
+import 'package:terminal_app/features/domain/usecases/pay/pay_usecase.dart';
+import 'package:terminal_app/features/dto/payment_informations.dart';
 import 'package:terminal_app/features/presentation/widget/app_bar/custom_app_bar.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_method.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_resume.dart';
@@ -75,8 +76,6 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _paid(BuildContext context, Cart cart, PaymentInformations paymentInformations) {
-    // TODO: call server to make the payment. 
-    // If it success, delete cart and display payment accepted. After 5 seconds return to cart page. 
-    // Else dispay payment refused. After 5 seconds return to payment page.
+    // TODO : If it success, delete cart and display payment accepted. After 5 seconds return to cart page. Else dispay payment refused. After 5 seconds return to payment page.
   }
 }
