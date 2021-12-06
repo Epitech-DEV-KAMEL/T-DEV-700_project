@@ -102,9 +102,19 @@ class ChoosePayment extends StatelessWidget {
   }
 
   void _navigateToNFCScanner(BuildContext context) async {
-    await Navigator.push(
+    var result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ScanNFC())
     );
+
+    if (result == null) return;
+    if (result is String) {
+      try {
+        BankCard bankCard = BankCard.fromJson(jsonDecode(result));
+        Navigator.pop(context, bankCard);
+      } catch (e) {
+        Navigator.pop(context);
+      }
+    }
   }
 }
