@@ -1,0 +1,2 @@
+
+enum PaymentMethods { card, cheque }
