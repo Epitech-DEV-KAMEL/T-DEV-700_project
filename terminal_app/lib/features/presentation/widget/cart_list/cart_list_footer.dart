@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:terminal_app/core/themes/color_theme.dart';
+import 'package:terminal_app/core/widgets/core_elevated_button/core_elevated_button.dart';
 import 'package:terminal_app/core/widgets/qr_code/qr_code_windows.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/domain/usecases/articles/get_article.dart';
@@ -26,11 +27,11 @@ class CartListFooter extends StatelessWidget {
     Cart cart = context.read<Cart>();
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        border: const Border(
           top: BorderSide(
-            color: Colors.black12
+            color: ColorTheme.borderColor,
           )
         )
       ),
@@ -40,7 +41,7 @@ class CartListFooter extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const CartTotal(),
-            const Padding(padding: EdgeInsets.only(bottom: 24.0)),
+            const SizedBox(height: 24.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -53,7 +54,7 @@ class CartListFooter extends StatelessWidget {
                     Icons.delete
                   )
                 ),
-                const Padding(padding: EdgeInsets.only(left: 10.0)),
+                const SizedBox(width: 10.0),
                 ElevatedButton(
                   style: _customButtonStyle,
                   onPressed: () {
@@ -63,21 +64,11 @@ class CartListFooter extends StatelessWidget {
                     Icons.qr_code
                   )
                 ),
-                const Padding(padding: EdgeInsets.only(left: 10.0)),
+                const SizedBox(width: 10.0),
                 Expanded(
-                  child: ElevatedButton(
-                    style: _customButtonStyle,
-                    onPressed: () {
-                      _navigateToPayment(context);
-                    }, 
-                    child: const Text(
-                      'Buy Now',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
+                  child: CoreElevatedButton(
+                    text: 'Buy Now',
+                    onPressed: () => _navigateToPayment(context),
                   ),
                 ),
               ],
@@ -105,8 +96,12 @@ class CartListFooter extends StatelessWidget {
     );
 
     fetchResult.fold(
-      (failure) => null, // TODO: display error message when failing to fetch article 
-      (article) => cart.add(article, 1)
+      (failure) {
+        // TODO: display error message when failing to fetch article
+      },
+      (article) {
+        cart.add(article, 1);
+      }
     );
   }
 

@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:terminal_app/core/themes/color_theme.dart';
+import 'package:terminal_app/core/themes/common_style.dart';
 import 'package:terminal_app/core/widgets/qr_code/qr_code_windows.dart';
 import 'package:terminal_app/core/widgets/scan_nfc/scan_nfc.dart';
 import 'package:terminal_app/features/domain/entities/bank_card.dart';
@@ -21,38 +23,89 @@ class ChoosePayment extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Text(
+              Text(
                 'Choose your paiement method',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold
                 ),
               ),
               const Padding(padding: EdgeInsets.only(bottom: 20.0)),
-              OutlinedButton(
-                onPressed: () {
-                  _navigateToCardForm(context);
-                }, 
-                child: const Text(
-                  'Pay by card'
-                )
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  _navigateToNFCScanner(context);
-                }, 
-                child: const Text(
-                  'Pay by NFC'
-                )
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  _navigateToQRCodeScanner(context);
-                }, 
-                child: const Text(
-                  'Pay by Cheque'
-                )
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              _navigateToCardForm(context);
+                            }, 
+                            child: const Icon(
+                              Icons.credit_card,
+                              size: 48,
+                              color: ColorTheme.primary
+                            )
+                          ),
+                        ),
+                        Text(
+                          'Credit Card',
+                          style: CommonStyle.paymentOutlineButtonSubTextStyle(context),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              _navigateToNFCScanner(context);
+                            }, 
+                            child: const Icon(
+                              Icons.nfc,
+                              size: 48,
+                              color: ColorTheme.primary
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Credit Card (NFC)',
+                          style: CommonStyle.paymentOutlineButtonSubTextStyle(context),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              _navigateToQRCodeScanner(context);
+                            }, 
+                            child: const Icon(
+                              Icons.payments,
+                              size: 48,
+                              color: ColorTheme.primary
+                            )
+                          ),
+                        ),
+                        Text(
+                          'Cheque',
+                          style: CommonStyle.paymentOutlineButtonSubTextStyle(context),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               )
             ],
           ),

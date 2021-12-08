@@ -15,9 +15,9 @@ class PaymentResume extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         border: Border.all(
-          color: Colors.black12
+          color: Theme.of(context).colorScheme.onBackground.withAlpha(30)
         ),
         borderRadius: BorderRadius.circular(6.0)
       ),
@@ -25,28 +25,28 @@ class PaymentResume extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Text(
+            Text(
               'Payment Summary',
               style: TextStyle(
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold
               ),
             ),
-            const Padding(padding: EdgeInsets.only(bottom: 20.0)),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Articles (${cart.items.length}):',
-                  style: const TextStyle(
-                    color: Colors.black45,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
                   )
                 ),
                 Text(
                   '${Formaters.price.format(totalArticlesPrice)} €',
-                  style: const TextStyle(
-                    color: Colors.black45,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
                   )
                 )
               ],
@@ -54,16 +54,16 @@ class PaymentResume extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Before tax:',
                   style: TextStyle(
-                    color: Colors.black45,
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
                   )
                 ),
                 Text(
                   '${Formaters.price.format(totalArticlesPrice - tax)} €',
-                  style: const TextStyle(
-                    color: Colors.black45,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
                   )
                 )
               ],
@@ -71,16 +71,16 @@ class PaymentResume extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Tax collected:',
                   style: TextStyle(
-                    color: Colors.black45,
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
                   )
                 ),
                 Text(
                   '${Formaters.price.format(tax)} €',
-                  style: const TextStyle(
-                    color: Colors.black45,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
                   )
                 )
               ],
@@ -92,20 +92,20 @@ class PaymentResume extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Total:',
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface,
                   )
                 ),
                 Text(
                   '${Formaters.price.format(totalArticlesPrice)} €',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black45,
+                    color: Theme.of(context).colorScheme.onSurface.withAlpha(100),
                   )
                 )
               ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:terminal_app/core/themes/common_style.dart';
+import 'package:terminal_app/core/widgets/core_elevated_button/core_elevated_button.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/domain/usecases/pay/pay_usecase.dart';
 import 'package:terminal_app/features/dto/payment_informations.dart';
@@ -56,20 +56,15 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
           Container(
             padding: const EdgeInsets.all(16.0),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                border: Border(top: BorderSide(color: Colors.black12))),
-            child: ElevatedButton(
-              style: CommonStyle.elevatedButton(),
-              onPressed: _paymentInformations == null ? null : () =>_paid(context, cart, _paymentInformations as PaymentInformations),
-              child: const Text(
-                'Buy',
-                style: TextStyle(
-                    fontSize: 18.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                border: Border(top: BorderSide(color: Theme.of(context).colorScheme.onBackground.withAlpha(30))
+              )
             ),
+            child: CoreElevatedButton(
+              text: 'Buy',
+              onPressed: _paymentInformations == null ? null : () =>_paid(context, cart, _paymentInformations as PaymentInformations)
+            )
           )
         ],
       ),
@@ -82,18 +77,24 @@ class _PaymentPageState extends State<PaymentPage> {
     );
 
     paymentResult.fold(
-      (failure) => {
+      (failure) {
         // TODO: Fail to contact server - dispay an error. After 2 seconds return to payment page.
       }, 
-      (isPaid) => {
+      (isPaid) {
         if (isPaid) {
-          cart.clear()
+          _reset(cart);
           // TODO: display payment accepted. After 5 seconds return to cart page.
         } else {
           // TODO: display an error and return to payment page after 2 seconds.
         }
       }
     );
-    
+  }
+
+  void _reset(Cart cart) {
+    cart.clear();
+    setState(() {
+      _paymentInformations = null;
+    });
   }
 }

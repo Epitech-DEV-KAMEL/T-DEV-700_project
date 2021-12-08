@@ -3,17 +3,17 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/core/themes/common_style.dart';
+import 'package:terminal_app/core/widgets/core_elevated_button/core_elevated_button.dart';
 import 'package:terminal_app/features/domain/entities/bank_card.dart';
 
 class BankCardForm extends StatefulWidget {
-  const BankCardForm({ Key? key }) : super(key: key);
+  const BankCardForm({Key? key}) : super(key: key);
 
   @override
   _BankCardFormState createState() => _BankCardFormState();
 }
 
 class _BankCardFormState extends State<BankCardForm> {
-
   final _formKey = GlobalKey<FormState>();
   String cardNumber = '';
   String expiryDate = '';
@@ -27,13 +27,10 @@ class _BankCardFormState extends State<BankCardForm> {
   @override
   void initState() {
     border = const OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.black12
-      ),
+      borderSide: BorderSide(color: Colors.black12),
     );
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,39 +38,25 @@ class _BankCardFormState extends State<BankCardForm> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ListView(
             children: [
               CreditCardWidget(
                 cardNumber: cardNumber,
-                expiryDate: expiryDate, 
+                expiryDate: expiryDate,
                 cardHolderName: cardHolderName,
                 cvvCode: cvvCode,
-                showBackView: isCvvFocused, 
+                showBackView: isCvvFocused,
                 glassmorphismConfig: Glassmorphism(
                   blurX: 1.0,
                   blurY: 1.0,
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: <Color>[
-                      Colors.black,
-                      Colors.black.withOpacity(0.8),
-                      Colors.black,
-                    ],
-                    stops: const <double>[
-                      0.4,
-                      0.3,
-                      0,
-                    ],
-                  ),
+                  gradient: CommonStyle.cardLinearGradient,
                 ),
                 animationDuration: const Duration(milliseconds: 1000),
                 height: 225.0,
                 obscureCardCvv: true,
                 obscureCardNumber: true,
                 cardBgColor: Colors.black,
-                onCreditCardWidgetChange: (CreditCardBrand cardBrand) {  },          
+                onCreditCardWidgetChange: (CreditCardBrand cardBrand) {},
               ),
               CreditCardForm(
                 formKey: _formKey,
@@ -86,54 +69,36 @@ class _BankCardFormState extends State<BankCardForm> {
                 isExpiryDateVisible: true,
                 cardHolderName: cardHolderName,
                 expiryDate: expiryDate,
-                themeColor: ColorTheme.primary as Color,
-                textColor: Colors.black,
-                cardNumberDecoration: InputDecoration(
-                  labelText: 'Number',
-                  hintText: 'XXXX XXXX XXXX XXXX',
-                  hintStyle: const TextStyle(color: Colors.black),
-                  labelStyle: const TextStyle(color: Colors.black),
-                  focusedBorder: border,
-                  enabledBorder: border,
+                themeColor: ColorTheme.primary,
+                textColor: Theme.of(context).colorScheme.onSurface.withAlpha(225),
+                cardNumberDecoration: CommonStyle.inputDecoration(
+                  context,
+                  label: 'Card Number',
+                  placeholder: 'XXXX XXXX XXXX XXXX'
                 ),
-                expiryDateDecoration: InputDecoration(
-                  hintStyle: const TextStyle(color: Colors.black),
-                  labelStyle: const TextStyle(color: Colors.black),
-                  focusedBorder: border,
-                  enabledBorder: border,
-                  labelText: 'Expired Date',
-                  hintText: 'XX/XX',
+                expiryDateDecoration: CommonStyle.inputDecoration(
+                  context,
+                  label: 'Expired Date',
+                  placeholder: 'XX/XX'
                 ),
-                cvvCodeDecoration: InputDecoration(
-                  hintStyle: const TextStyle(color: Colors.black),
-                  labelStyle: const TextStyle(color: Colors.black),
-                  focusedBorder: border,
-                  enabledBorder: border,
-                  labelText: 'CVV',
-                  hintText: 'XXX',
+                cvvCodeDecoration: CommonStyle.inputDecoration(
+                  context,
+                  label: 'CVV',
+                  placeholder: 'XXX'
                 ),
-                cardHolderDecoration: InputDecoration(
-                  hintStyle: const TextStyle(color: Colors.black),
-                  labelStyle: const TextStyle(color: Colors.black),
-                  focusedBorder: border,
-                  enabledBorder: border,
-                  labelText: 'Card Holder',
+                cardHolderDecoration: CommonStyle.inputDecoration(
+                  context,
+                  label: "Cardholder's Name",
+                  placeholder: 'XX/XX'
                 ),
                 onCreditCardModelChange: _onCreditCardModelChange,
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: ElevatedButton(
-                style: CommonStyle.elevatedButton(),
-                onPressed: () => _closePopupAndReturnCreditCardInformation(context),
-                child: const Text(
-                  'Add',
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-            ),
+                child: CoreElevatedButton(
+                  text: 'Add Card',
+                  onPressed: () => _closePopupAndReturnCreditCardInformation(context),
+                )
               ),
             ],
           )
@@ -154,14 +119,11 @@ class _BankCardFormState extends State<BankCardForm> {
 
   void _closePopupAndReturnCreditCardInformation(BuildContext context) {
     BankCard bankCard = BankCard(
-      accountNumber: cardNumber,
-      brandMark: 'visa',
-      cardSecurityCode: cvvCode,
-      cardholderName: cardHolderName,
-      expirationDate: expiryDate
-    );
-
-    // TODO: verify card validy from server API
+        accountNumber: cardNumber,
+        brandMark: 'visa',
+        cardSecurityCode: cvvCode,
+        cardholderName: cardHolderName,
+        expirationDate: expiryDate);
 
     Navigator.pop(context, bankCard);
   }

@@ -38,6 +38,7 @@ class _QRCodeWindowsState extends State<QRCodeWindows> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: QRView(

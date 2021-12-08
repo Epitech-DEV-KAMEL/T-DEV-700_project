@@ -1,9 +1,8 @@
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:terminal_app/core/themes/color_theme.dart';
+import 'package:terminal_app/core/themes/common_style.dart';
 import 'package:terminal_app/core/utils/formaters.dart';
 import 'package:terminal_app/core/widgets/numeric_input/numeric_input.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
@@ -28,13 +27,7 @@ class CartArticleItem extends StatelessWidget {
       child: SizedBox(
         height: 120,
         child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              color: Colors.black12
-            ),
-            borderRadius: BorderRadius.circular(6.0),
-          ),
+          decoration: CommonStyle.articleCardBoxDecoration(context),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Row(
@@ -44,10 +37,7 @@ class CartArticleItem extends StatelessWidget {
                   aspectRatio: 1.0,
                   child: Container(
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.0),
-                      color: Colors.primaries[Random().nextInt(Colors.primaries.length)][100]
-                    ),
+                    decoration: CommonStyle.thumnailBoxDecoration(),
                     child: Text(article.name[0].toUpperCase() + article.name[1]),
                   ),
                 ),
@@ -93,22 +83,17 @@ class CartArticleItemDescription extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '${article.name} [${article.id}]',
+                article.name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold
-                ),
+                style: CommonStyle.articleCardTitleTextStyle(context),
               ),
-              const Padding(padding: EdgeInsets.only(bottom: 2.0)),
+              const SizedBox(height: 2.0),
               Text(
                 article.description,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black54,
-                ),
+                style: CommonStyle.articleCardDescriptionTextStyle(context),
               )
             ],
           )
@@ -121,10 +106,7 @@ class CartArticleItemDescription extends StatelessWidget {
             children: <Widget>[
               Text(
                 '${Formaters.price.format(article.price)} €',
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold
-                ),  
+                style: CommonStyle.articleCardPriceTextStyle(context),  
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -133,7 +115,7 @@ class CartArticleItemDescription extends StatelessWidget {
                     onPressed: () {
                       cart.removeCartArticle(articleIndex);
                     }, 
-                    child: Icon(
+                    child: const Icon(
                       Icons.delete,
                       size: 16,
                       color: ColorTheme.primary,
@@ -142,7 +124,7 @@ class CartArticleItemDescription extends StatelessWidget {
                       padding: const EdgeInsets.all(2.0)
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.only(left: 10.0)),
+                  const SizedBox(width: 10.0),
                   NumericInput(
                     minimum: 0,
                     value: article.amount,
