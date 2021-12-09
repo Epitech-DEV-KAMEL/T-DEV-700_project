@@ -7,7 +7,8 @@ class AuthRepositoryImpl implements AuthRepository{
   @override
   Future<Either<Failure, AuthenticationStatus>> login({required String locality, required String password}) {
     // TODO: implement login
-    throw UnimplementedError();
+    return Future.value(const Right(AuthenticationStatus.authenticated));
+    //throw UnimplementedError();
   }
 
   @override

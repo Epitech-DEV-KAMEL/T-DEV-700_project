@@ -1,30 +1,9 @@
 
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:terminal_app/features/domain/repositories/auth_repository.dart';
 import 'package:terminal_app/features/domain/usecases/auth/login_usecase.dart';
 import 'package:terminal_app/features/domain/usecases/auth/logout_usecase.dart';
-
-abstract class AuthenticationEvent extends Equatable {
-  const AuthenticationEvent();
-
-  @override
-  List<Object?> get props => [];  
-}
-
-class AuthenticationStatusChanged extends AuthenticationEvent {
-  const AuthenticationStatusChanged(this.status);
-
-  final AuthenticationStatus status;
-
-  @override
-  List<Object?> get props => [status];
-}
-
-class AuthenticationLogoutRequested extends AuthenticationEvent {}
-
 
 class AuthenticationState extends Equatable {
   final AuthenticationStatus status;
@@ -45,28 +24,32 @@ class AuthenticationState extends Equatable {
   List<Object?> get props => [status];
 }
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final LogoutUsecase _logoutUsecase;
+class AuthenticationCubit extends Cubit<AuthenticationState> {
   final LoginUsecase _loginUsecase;
-  late StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
-
-  AuthenticationBloc({
+  final LogoutUsecase _logoutUsecase;
+  
+  AuthenticationCubit({
     required LoginUsecase loginUsecase,
-    required LogoutUsecase logoutUsecase,
+    required LogoutUsecase logoutUsecase
   }) : _loginUsecase = loginUsecase,
        _logoutUsecase = logoutUsecase,
-       super(const AuthenticationState.unknown()) {
-    on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
-    on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
+      super(const AuthenticationState.unknown());
+  
+  void login(String locality, String password) async {
+    var result = await _loginUsecase.execute(LoginParams(locality, password));
+
+    result.fold(
+      (failure) => emit(const AuthenticationState.unauthenticated()), 
+      (status) => emit(AuthenticationState._(status: status))
+    );
   }
 
-  Future<void> _onAuthenticationStatusChanged(AuthenticationStatusChanged event, Emitter<AuthenticationState> emit) {
-    // TODO: implement
-    throw UnimplementedError();
-  }
+  void logout() async {
+    var result = await _logoutUsecase.execute(const LogoutParams());
 
-  Future<void> _onAuthenticationLogoutRequested(AuthenticationLogoutRequested event, Emitter<AuthenticationState> emit) {
-    // TODO: implement
-    throw UnimplementedError();
+    result.fold(
+      (failure) => null, 
+      (status) => emit(AuthenticationState._(status: status))
+    );
   }
 }

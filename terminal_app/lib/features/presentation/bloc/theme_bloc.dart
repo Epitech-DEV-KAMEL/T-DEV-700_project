@@ -1,5 +1,4 @@
 
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:terminal_app/core/themes/color_theme.dart';

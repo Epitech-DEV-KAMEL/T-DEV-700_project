@@ -4,11 +4,15 @@ import 'package:terminal_app/core/error/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:terminal_app/core/usecases/usecases.dart';
 import 'package:terminal_app/features/domain/repositories/auth_repository.dart';
-import 'package:terminal_app/features/presentation/bloc/authentication_bloc.dart';
 
 class LoginParams extends Equatable {
+  const LoginParams(this.locality, this.password);
+
+  final String locality;
+  final String password;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [locality, password];
 }
 
 class LoginUsecase extends UseCases<AuthenticationStatus, LoginParams> {
@@ -18,7 +22,6 @@ class LoginUsecase extends UseCases<AuthenticationStatus, LoginParams> {
   
   @override
   Future<Either<Failure, AuthenticationStatus>> execute(params) {
-    // TODO: implement login usecase
-    throw UnimplementedError();
+    return authRepository.login(locality: params.locality, password: params.password);
   }
 }

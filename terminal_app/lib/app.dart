@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:terminal_app/features/presentation/bloc/theme_bloc.dart';
-import 'package:terminal_app/features/presentation/pages/cart_page.dart';
+import 'package:terminal_app/features/presentation/widget/auth_router/auth_router.dart';
 
 class TerminalApp extends StatefulWidget {
   const TerminalApp({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _TerminalAppState extends State<TerminalApp> {
           return MaterialApp(
             title: "The Terminal",
             theme: state.themeData,
-            home: const CartPage(),
+            home: const AuthRouter(),
           );
         },
       ),
