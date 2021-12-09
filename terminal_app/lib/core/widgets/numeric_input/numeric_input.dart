@@ -37,8 +37,10 @@ class _NumericInputState extends State<NumericInput> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black12),
-        borderRadius: const BorderRadius.all(Radius.circular(6.0))
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onSurface.withAlpha(32)
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(4.0))
       ),
       child: Row(
         children: [
@@ -46,16 +48,17 @@ class _NumericInputState extends State<NumericInput> {
             onTap: () { 
               _decrement();
             },
-            child: const Icon(
+            child: Icon(
               Icons.remove,
               size: 16.0,
-              color: Colors.deepOrange,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const Padding(padding: EdgeInsets.only(left: 6.0)),
           Text(
             '${widget.value}',
-            style: const TextStyle(
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.bold
             ),
           ),
@@ -64,10 +67,10 @@ class _NumericInputState extends State<NumericInput> {
             onTap: () {
               _increment();
             },
-            child: const Icon(
+            child: Icon(
               Icons.add,
               size: 16.0,
-              color: Colors.deepOrange,
+              color: Theme.of(context).colorScheme.primary,
             ),
           )
         ],

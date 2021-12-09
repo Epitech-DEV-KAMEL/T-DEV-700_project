@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:terminal_app/core/themes/color_theme.dart';
 import 'package:terminal_app/core/utils/formaters.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 
@@ -24,7 +25,7 @@ class CartTotal extends StatelessWidget {
         Text(
           '${Formaters.price.format(cart.totalPrice)} €',
           style: const TextStyle(
-            color: Colors.deepOrange,
+            color: ColorTheme.primary,
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
           ),
