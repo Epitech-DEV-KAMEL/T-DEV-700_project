@@ -19,7 +19,6 @@ class LogoutUsecase extends UseCases<AuthenticationStatus, LogoutParams> {
   
   @override
   Future<Either<Failure, AuthenticationStatus>> execute(params) {
-    // TODO: implement logout usecase
-    throw UnimplementedError();
+    return authRepository.logout();
   }
 }

@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:terminal_app/features/domain/repositories/auth_repository.dart';
+import 'package:terminal_app/features/presentation/bloc/authentication_bloc.dart';
 import 'package:terminal_app/features/presentation/bloc/theme_bloc.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -11,6 +13,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthenticationCubit>();
+
     return AppBar(
       centerTitle: true,
       toolbarHeight: toolbarHeigh,
@@ -35,6 +39,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             );
           },
+        ),
+        if (authCubit.state.status == AuthenticationStatus.authenticated) IconButton(
+          onPressed: () {
+            authCubit.logout();
+          },
+          icon: const Icon(Icons.logout)
         )
       ],
     );

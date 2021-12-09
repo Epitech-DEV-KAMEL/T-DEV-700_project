@@ -24,9 +24,11 @@ class _LoginFormState extends State<LoginForm> {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextFormField(
               controller: localityController,
+              decoration: CommonStyle.inputDecoration(context, label: "Locality"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a text';
@@ -39,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: passwordController,
               autocorrect: false,
               obscureText: true,
-              decoration: CommonStyle.inputDecoration(context, label: "password"),
+              decoration: CommonStyle.inputDecoration(context, label: "Password"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a text';
