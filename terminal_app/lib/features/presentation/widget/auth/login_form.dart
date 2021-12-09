@@ -28,6 +28,10 @@ class _LoginFormState extends State<LoginForm> {
           children: <Widget>[
             TextFormField(
               controller: localityController,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground, 
+              ),
+              cursorColor: Theme.of(context).colorScheme.onBackground,
               decoration: CommonStyle.inputDecoration(context, label: "Locality"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -41,6 +45,10 @@ class _LoginFormState extends State<LoginForm> {
               controller: passwordController,
               autocorrect: false,
               obscureText: true,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground, 
+              ),
+              cursorColor: Theme.of(context).colorScheme.onBackground,
               decoration: CommonStyle.inputDecoration(context, label: "Password"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
