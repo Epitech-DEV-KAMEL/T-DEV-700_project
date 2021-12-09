@@ -13,17 +13,14 @@ class TerminalApp extends StatefulWidget {
 class _TerminalAppState extends State<TerminalApp> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ThemeBloc(),
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (BuildContext context, ThemeState state) {
-          return MaterialApp(
-            title: "The Terminal",
-            theme: state.themeData,
-            home: const AuthRouter(),
-          );
-        },
-      ),
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (BuildContext context, ThemeState state) {
+        return MaterialApp(
+          title: "The Terminal",
+          theme: state.themeData,
+          home: const AuthRouter(),
+        );
+      },
     );
   }
 }
