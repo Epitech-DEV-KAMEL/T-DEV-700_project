@@ -14,4 +14,12 @@ class OrderArticle {
     : id = cartArticle.id,
       amount = cartArticle.amount;
   
+  OrderArticle.fromJson(Map<String, dynamic> json)
+    : id = json['id'],
+      amount = json['amount'];
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'amount': amount
+  };
 }

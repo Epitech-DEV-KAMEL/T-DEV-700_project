@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:terminal_app/core/themes/common_style.dart';
 import 'package:terminal_app/core/widgets/core_elevated_button/core_elevated_button.dart';
 import 'package:terminal_app/features/presentation/bloc/authentication_bloc.dart';

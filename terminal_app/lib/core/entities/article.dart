@@ -23,6 +23,13 @@ class Article extends Equatable {
       description = json['description'],
       price = json['price'];
 
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'description': description,
+    'price': price
+  };
+
   @override
   String toString() {
     return 'Article { id: $id, price: $price, name: $name, $description: $description }';

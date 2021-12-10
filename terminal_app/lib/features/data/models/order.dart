@@ -7,4 +7,14 @@ class Order {
   const Order({ 
     required this.articles
   });
+
+  factory Order.fromJson(Map<String, dynamic> json) {
+    return Order(
+      articles: json['articles'].map((articleJson) => OrderArticle.fromJson(articleJson))
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'articles': articles.map((article) => article.toJson()).toList()
+  };
 }
