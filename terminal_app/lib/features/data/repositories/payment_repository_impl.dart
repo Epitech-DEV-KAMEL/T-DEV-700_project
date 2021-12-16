@@ -1,6 +1,8 @@
 
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'package:terminal_app/features/data/datasources/api_datasource.dart';
 import 'package:terminal_app/features/data/models/order_article.dart';
-import 'package:terminal_app/features/data/models/order_dto.dart';
 import 'package:terminal_app/features/data/models/payment_by_card_dto.dart';
 import 'package:terminal_app/features/data/models/payment_by_cheque_dto.dart';
 import 'package:terminal_app/features/domain/entities/cheque.dart';
@@ -12,25 +14,36 @@ import 'package:terminal_app/features/domain/repositories/payment_repository.dar
 
 class PaymentRepositoryImpl implements PaymentRepository {
   @override
-  Future<Either<Failure, bool>> payByCard(List<CartArticle> articles, BankCard bankCard) {
+  Future<Either<Failure, bool>> payByCard(List<CartArticle> articles, BankCard bankCard) async {
     final data = PaymentByCardDto(
       bankCard: bankCard, 
-      order: OrderDto(articles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList())
+      orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
     );
 
-    // TODO: implement payByCard
-    throw UnimplementedError();
+    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/card"), body: data);
+    if (response.statusCode == 202) {
+      return const Right(true);
+    } else if (response.statusCode == 406) {
+      return const Right(false);
+    } else {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<Either<Failure, bool>> payByCheque(List<CartArticle> articles, Cheque cheque) {
+  Future<Either<Failure, bool>> payByCheque(List<CartArticle> articles, Cheque cheque) async {
     final data = PaymentByChequeDto(
       chequeId: cheque.id,
-      order: OrderDto(articles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList())
+      orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
     );
     
-    // TODO: implement payByCheque
-    throw UnimplementedError();
+    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/cheque"), body: data);
+    if (response.statusCode == 202) {
+      return const Right(true);
+    } else if (response.statusCode == 406) {
+      return const Right(false);
+    } else {
+      return Left(ServerFailure());
+    }
   }
-  
 }

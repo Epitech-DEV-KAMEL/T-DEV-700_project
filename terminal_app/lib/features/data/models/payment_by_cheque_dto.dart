@@ -1,26 +1,26 @@
 
-import 'package:terminal_app/features/data/models/order_dto.dart';
+import 'package:terminal_app/features/data/models/order_article.dart';
 
 class PaymentByChequeDto {
   final String chequeId;
-  final OrderDto order;
+  final List<OrderArticle> orderArticles;
 
   const PaymentByChequeDto({
     required this.chequeId, 
-    required this.order
+    required this.orderArticles
   });
 
   factory PaymentByChequeDto.fromJson(Map<String, dynamic> json) {
     return PaymentByChequeDto(
       chequeId: json['chequeId'],
-      order: OrderDto.fromJson(json['order'])
+      orderArticles: json['orderArticles'].map((articleJson) => OrderArticle.fromJson(articleJson))
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'chequeId': chequeId,
-      'order': order.toJson()
+      'orderArticles': orderArticles.map((article) => article.toJson()).toList(),
     };
   }
 }

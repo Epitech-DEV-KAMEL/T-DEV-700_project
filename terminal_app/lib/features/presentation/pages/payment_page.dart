@@ -4,6 +4,8 @@ import 'package:terminal_app/core/widgets/core_elevated_button/core_elevated_but
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/domain/usecases/pay/pay_usecase.dart';
 import 'package:terminal_app/features/dto/payment_informations.dart';
+import 'package:terminal_app/features/presentation/pages/error_page.dart';
+import 'package:terminal_app/features/presentation/pages/success_page.dart';
 import 'package:terminal_app/features/presentation/widget/app_bar/custom_app_bar.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_method.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_resume.dart';
@@ -78,14 +80,23 @@ class _PaymentPageState extends State<PaymentPage> {
 
     paymentResult.fold(
       (failure) {
-        // TODO: Fail to contact server - dispay an error. After 2 seconds return to payment page.
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (context) => const ErrorPage(message: "Failed to contact server"))
+        );
       }, 
       (isPaid) {
         if (isPaid) {
           _reset(cart);
-          // TODO: display payment accepted. After 5 seconds return to cart page.
+          Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => const SuccessPage(message: "Payment Accepted"))
+          );
         } else {
-          // TODO: display an error and return to payment page after 2 seconds.
+          Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => const ErrorPage(message: "Payment Refused"))
+          );
         }
       }
     );
