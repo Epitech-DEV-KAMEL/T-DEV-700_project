@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:terminal_app/features/data/datasources/api_datasource.dart';
 import 'package:terminal_app/features/data/models/order_article.dart';
@@ -20,7 +21,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
       orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
     );
 
-    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/card"), body: data);
+    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/card"), body: jsonEncode(data));
     if (response.statusCode == 202) {
       return const Right(true);
     } else if (response.statusCode == 406) {
@@ -37,7 +38,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
       orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
     );
     
-    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/cheque"), body: data);
+    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/cheque"), body: jsonEncode(data));
     if (response.statusCode == 202) {
       return const Right(true);
     } else if (response.statusCode == 406) {
