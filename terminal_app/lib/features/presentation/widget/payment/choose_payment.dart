@@ -149,8 +149,6 @@ class ChoosePayment extends StatelessWidget {
       return;
     }
 
-    // TODO : validate cheque from server
-
     Navigator.pop(context, cheque);
   }
 
