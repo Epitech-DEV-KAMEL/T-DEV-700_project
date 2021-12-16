@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Base64;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -12,25 +13,20 @@ import java.util.Base64;
 @Table(name = "cheques")
 public class Cheque {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String token;
+    private String id;
     private Double amount;
-    private Boolean used = false;
 
-    public Cheque(Double amount) {
+    public Cheque(double amount) {
+        this.id = UUID.randomUUID().toString();
         this.amount = amount;
     }
 
-    public Cheque(String token, Double amount) {
-        this.token = token;
-        this.amount = amount;
+    public boolean canBeUsedToPay(Double amountToPay) {
+        if (amountToPay < 0) return false;
+        return amount >= amountToPay;
     }
 
-    public boolean hasBeenUsed() {
-        return this.used;
-    }
-    public void setUseStatus(boolean used) {
-        this.used = used;
+    public void debit(Double amount) {
+        this.amount -= amount;
     }
 }

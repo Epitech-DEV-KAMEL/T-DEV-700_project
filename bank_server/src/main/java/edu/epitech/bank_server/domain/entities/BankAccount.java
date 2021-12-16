@@ -26,4 +26,9 @@ public class BankAccount {
     public void debit(Double amount) {
         this.amount -= amount;
     }
+
+    public boolean canBeUsedToPay(Double amountToPay) {
+        if (amountToPay < 0) return false;
+        return amount >= amountToPay;
+    }
 }
