@@ -1,15 +1,15 @@
 
 import 'package:terminal_app/features/data/models/order_article.dart';
 
-class Order {
+class OrderDto {
   final List<OrderArticle> articles;
 
-  const Order({ 
+  const OrderDto({ 
     required this.articles
   });
 
-  factory Order.fromJson(Map<String, dynamic> json) {
-    return Order(
+  factory OrderDto.fromJson(Map<String, dynamic> json) {
+    return OrderDto(
       articles: json['articles'].map((articleJson) => OrderArticle.fromJson(articleJson))
     );
   }

@@ -99,14 +99,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Amount',
+                        'ID',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 14.0,
                         ),
                       ),
                       Text(
-                        '${cheque!.amount} €',
+                        '${cheque!.id} €',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontSize: 14.0,

@@ -1,22 +1,16 @@
-
 import 'package:equatable/equatable.dart';
 
 class Cheque extends Equatable {
-  final int id;
-  final String token;
-  final double amount;
+  final String id;
 
-  const Cheque({
-    required this.id, 
-    required this.token, 
-    required this.amount
-  });
+  const Cheque({required this.id});
 
-  Cheque.fromJson(Map<String, dynamic> json)
-    : id = json['id'],
-      token = json['token'],
-      amount = json['amount'];
+  Cheque.fromJson(Map<String, dynamic> json) : id = json['id'];
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+  };
 
   @override
-  List<Object?> get props => [id, token, amount];  
+  List<Object?> get props => [id];
 }
