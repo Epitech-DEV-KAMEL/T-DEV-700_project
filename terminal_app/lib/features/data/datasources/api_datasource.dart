@@ -19,12 +19,20 @@ class ApiDatasource {
   }
 
   Future<dynamic> get(String url) async {
-    var response = await http.get(Uri.parse(_baseUrl + url), headers: _getHeaders);
-    return response;
+    try {
+      final response = await http.get(Uri.parse(_baseUrl + url), headers: _getHeaders);
+      return response;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<dynamic> post(String url, dynamic body) async {
-    var response = await http.post(Uri.parse(_baseUrl + url), body: body, headers: _getHeaders);
-    return response;
+    try {
+      var response = await http.post(Uri.parse(_baseUrl + url), body: body, headers: _getHeaders);
+      return response;
+    } catch (e) {
+      return null;
+    }
   }
 }

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:terminal_app/core/error/failure.dart';
@@ -14,10 +13,15 @@ class ArticleRepositoryImpl implements ArticleRepository {
   @override
   Future<Either<Failure, Article>> getArticleById(int id) async {
     final response = await apiDatasource.get("/articles/$id");
+
+    if (response == null) {
+      return Left(ServerFailure());
+    }
+
     if (response.statusCode == 200) {
       return Right(Article.fromJson(json.decode(response.body)));
     } else {
       return Left(ServerFailure());
     }
-  }    
+  }
 }

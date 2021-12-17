@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:terminal_app/features/data/datasources/api_datasource.dart';
@@ -17,13 +16,21 @@ class PaymentRepositoryImpl implements PaymentRepository {
   const PaymentRepositoryImpl(this.apiDatasource);
 
   @override
-  Future<Either<Failure, bool>> payByCard(List<CartArticle> articles, BankCard bankCard) async {
+  Future<Either<Failure, bool>> payByCard(
+      List<CartArticle> articles, BankCard bankCard) async {
     final data = PaymentByCardDto(
-      bankCard: bankCard, 
-      orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
-    );
+        bankCard: bankCard,
+        orderArticles: articles
+            .map((article) =>
+                OrderArticle(id: article.id, amount: article.amount))
+            .toList());
 
     final response = await apiDatasource.post("/pay/card", jsonEncode(data));
+
+    if (response == null) {
+      return Left(ServerFailure());
+    }
+
     if (response.statusCode == 202) {
       return const Right(true);
     } else if (response.statusCode == 406) {
@@ -34,13 +41,21 @@ class PaymentRepositoryImpl implements PaymentRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> payByCheque(List<CartArticle> articles, Cheque cheque) async {
+  Future<Either<Failure, bool>> payByCheque(
+      List<CartArticle> articles, Cheque cheque) async {
     final data = PaymentByChequeDto(
-      chequeId: cheque.id,
-      orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
-    );
-    
+        chequeId: cheque.id,
+        orderArticles: articles
+            .map((article) =>
+                OrderArticle(id: article.id, amount: article.amount))
+            .toList());
+
     final response = await apiDatasource.post("/pay/cheque", jsonEncode(data));
+
+    if (response == null) {
+      return Left(ServerFailure());
+    }
+
     if (response.statusCode == 202) {
       return const Right(true);
     } else if (response.statusCode == 406) {
