@@ -21,6 +21,8 @@ class _CartPageState extends State<CartPage> {
     
     return Scaffold(
       appBar: const CustomAppBar(title: 'My Cart'),
+
+      // TODO: Delete this floatingActionButton when the app is ready to go in production
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           int articleId = Random().nextInt(11);
@@ -34,9 +36,13 @@ class _CartPageState extends State<CartPage> {
           int amount = Random().nextInt(10) + 1;
           cart.add(article, amount);
         },
+        // end TODO
+        
         child: const Icon(Icons.shopping_basket),
         backgroundColor: Colors.blueAccent[100],
       ),
+
+
       body: const CartList()
     );
   }
