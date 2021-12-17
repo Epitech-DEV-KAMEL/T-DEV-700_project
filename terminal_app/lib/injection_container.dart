@@ -1,5 +1,6 @@
 
 import 'package:get_it/get_it.dart';
+import 'package:terminal_app/features/data/datasources/api_datasource.dart';
 import 'package:terminal_app/features/data/repositories/article_repository_impl.dart';
 import 'package:terminal_app/features/data/repositories/auth_repository_impl.dart';
 import 'package:terminal_app/features/data/repositories/payment_repository_impl.dart';
@@ -14,13 +15,14 @@ import 'package:terminal_app/features/domain/usecases/pay/pay_usecase.dart';
 final sl = GetIt.instance;
 
 void init() {
-  sl.registerLazySingleton<PaymentRepository>(() => PaymentRepositoryImpl());
+  sl.registerLazySingleton<ApiDatasource>(() => ApiDatasource());
+  sl.registerLazySingleton<PaymentRepository>(() => PaymentRepositoryImpl(sl()));
   sl.registerLazySingleton<PayUsecase>(() => PayUsecase(sl()));
 
-  sl.registerLazySingleton<ArticleRepository>(() => ArticleRepositoryImpl());
+  sl.registerLazySingleton<ArticleRepository>(() => ArticleRepositoryImpl(sl()));
   sl.registerLazySingleton<GetArticle>(() => GetArticle(sl()));
 
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
   sl.registerLazySingleton<LoginUsecase>(() => LoginUsecase(sl()));
   sl.registerLazySingleton<LogoutUsecase>(() => LogoutUsecase(sl()));
 }

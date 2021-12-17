@@ -6,7 +6,7 @@ import 'package:terminal_app/core/widgets/core_elevated_button/core_elevated_but
 import 'package:terminal_app/core/widgets/qr_code/qr_code_windows.dart';
 import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/domain/usecases/articles/get_article.dart';
-import 'package:terminal_app/features/presentation/pages/error_page.dart';
+import 'package:terminal_app/features/presentation/pages/awaiting_add_article_page.dart';
 import 'package:terminal_app/features/presentation/pages/payment_page.dart';
 import 'package:terminal_app/features/presentation/widget/cart_list/cart_total.dart';
 import 'package:terminal_app/injection_container.dart';
@@ -79,26 +79,21 @@ class CartListFooter extends StatelessWidget {
     int? articleId = int.tryParse(barcode);
     if (articleId == null) return;
 
-    var fetchResult =
-        await sl<GetArticle>().execute(GetArticleParams(id: articleId));
-
-    fetchResult.fold((failure) {
-      _navigateToErrorPage(context);
-    }, (article) {
-      cart.add(article, 1);
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AwaitingAddArticlePage(
+          getArticleFuture: sl<GetArticle>().execute(GetArticleParams(id: articleId)),
+          onAdded: (article) {
+            cart.add(article, 1);
+          },
+        ),
+      ),
+    );
   }
 
   void _navigateToPayment(BuildContext context) async {
     await Navigator.push(
         context, MaterialPageRoute(builder: (context) => const PaymentPage()));
-  }
-
-  void _navigateToErrorPage(BuildContext context) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const ErrorPage(message: 'Article not found')));
   }
 }

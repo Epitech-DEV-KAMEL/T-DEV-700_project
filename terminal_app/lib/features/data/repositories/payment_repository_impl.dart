@@ -1,7 +1,5 @@
-
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:terminal_app/features/data/datasources/api_datasource.dart';
 import 'package:terminal_app/features/data/models/order_article.dart';
 import 'package:terminal_app/features/data/models/payment_by_card_dto.dart';
@@ -14,14 +12,25 @@ import 'package:dartz/dartz.dart';
 import 'package:terminal_app/features/domain/repositories/payment_repository.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {
-  @override
-  Future<Either<Failure, bool>> payByCard(List<CartArticle> articles, BankCard bankCard) async {
-    final data = PaymentByCardDto(
-      bankCard: bankCard, 
-      orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
-    );
+  final ApiDatasource apiDatasource;
+  const PaymentRepositoryImpl(this.apiDatasource);
 
-    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/card"), body: jsonEncode(data));
+  @override
+  Future<Either<Failure, bool>> payByCard(
+      List<CartArticle> articles, BankCard bankCard) async {
+    final data = PaymentByCardDto(
+        bankCard: bankCard,
+        orderArticles: articles
+            .map((article) =>
+                OrderArticle(id: article.id, amount: article.amount))
+            .toList());
+
+    final response = await apiDatasource.post("/pay/card", jsonEncode(data));
+
+    if (response == null) {
+      return Left(ServerFailure());
+    }
+
     if (response.statusCode == 202) {
       return const Right(true);
     } else if (response.statusCode == 406) {
@@ -32,13 +41,21 @@ class PaymentRepositoryImpl implements PaymentRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> payByCheque(List<CartArticle> articles, Cheque cheque) async {
+  Future<Either<Failure, bool>> payByCheque(
+      List<CartArticle> articles, Cheque cheque) async {
     final data = PaymentByChequeDto(
-      chequeId: cheque.id,
-      orderArticles: articles.map((article) => OrderArticle(id: article.id, amount: article.amount)).toList()
-    );
-    
-    final response = await http.post(Uri.parse("${ApiDatasource.baseUrl}/pay/cheque"), body: jsonEncode(data));
+        chequeId: cheque.id,
+        orderArticles: articles
+            .map((article) =>
+                OrderArticle(id: article.id, amount: article.amount))
+            .toList());
+
+    final response = await apiDatasource.post("/pay/cheque", jsonEncode(data));
+
+    if (response == null) {
+      return Left(ServerFailure());
+    }
+
     if (response.statusCode == 202) {
       return const Right(true);
     } else if (response.statusCode == 406) {
