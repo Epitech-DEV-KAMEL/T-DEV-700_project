@@ -5,8 +5,6 @@ import 'package:terminal_app/features/domain/entities/cart.dart';
 import 'package:terminal_app/features/domain/usecases/pay/pay_usecase.dart';
 import 'package:terminal_app/features/dto/payment_informations.dart';
 import 'package:terminal_app/features/presentation/pages/awaiting_payment_page.dart';
-import 'package:terminal_app/features/presentation/pages/error_page.dart';
-import 'package:terminal_app/features/presentation/pages/success_page.dart';
 import 'package:terminal_app/features/presentation/widget/app_bar/custom_app_bar.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_method.dart';
 import 'package:terminal_app/features/presentation/widget/payment/payment_resume.dart';

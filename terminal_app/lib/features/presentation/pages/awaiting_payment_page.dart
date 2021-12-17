@@ -26,7 +26,7 @@ class _AwaitingPaymentPageState extends State<AwaitingPaymentPage> {
                 _popPage(context);
                 var result = snapshot.data as dartz.Either<Failure, bool>;
                 return result.fold(
-                  (l) => Text(
+                  (failure) => Text(
                     "Failed to contact server or Unauthorized",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
@@ -34,8 +34,8 @@ class _AwaitingPaymentPageState extends State<AwaitingPaymentPage> {
                       fontWeight: FontWeight.bold
                     ),
                   ),
-                  (r) {
-                    if (r == true) {
+                  (isPaid) {
+                    if (isPaid) {
                       widget.onPaid?.call();
                       return const Text(
                         "Payment successful",

@@ -2,7 +2,15 @@ import 'package:http/http.dart' as http;
 
 class ApiDatasource {
   static const String _baseUrl = "http://10.0.2.2:8080/api";
-  String? _authJWT = null;
+  String? _authJWT;
+
+  void setAuthJWT(String authJWT) {
+    _authJWT = authJWT;
+  }
+
+  void clearAuthJWT() {
+    _authJWT = null;
+  }
 
   // get auth header
   Map<String, String> get _getHeaders {
