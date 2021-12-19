@@ -13,8 +13,5 @@ public class BankServerApplication {
         SpringApplication.run(BankServerApplication.class, args);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder () {
-        return new BCryptPasswordEncoder();
-    }
+
 }
