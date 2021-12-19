@@ -1,7 +1,5 @@
 FROM maven:3.8.4-openjdk-11-slim AS MAVEN_BUILD
 
-MAINTAINER Brian Hannaway
-
 COPY pom.xml /build/
 COPY src /build/src/
 
