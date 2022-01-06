@@ -13,9 +13,8 @@ jobs:
           flutter-version: '2.5.0'
           channel: stable
       - name: Build apk
-        with:
-          context: ./terminal_app
         run: |
+          cd terminal_app/
           flutter pub get
           flutter format --set-exit-if-changed .
           flutter analyze
