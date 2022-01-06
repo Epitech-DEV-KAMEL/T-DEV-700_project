@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+    traefik.docker.network: cashmanager-net
+    traefik.enable: "true"
+    traefik.http.routers.api.entrypoints: websecure
+    traefik.http.routers.api.rule: Host(``)&& PathPrefix(`/api`)
+    traefik.http.routers.api.tls: "true"
+    traefik.http.routers.api.tls.certresolver: traefik
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  ports:
+  - name: "4000"
+    port: 4000
+    targetPort: 8080
+  selector:
+    io.kompose.service: api
+status:
+  loadBalancer: {}
