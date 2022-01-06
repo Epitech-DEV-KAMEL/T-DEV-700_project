@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PASSWORD
+      POSTGRES_DB: $PG_DB
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped 
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: $PGADMIN_MAIL
+      PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PASSWORD
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    
+  api: 
+    build:
+      context: ./bank_server
+    ports:
+      - "4000:8080" 
+    depends_on: 
+      - postgres
+volumes:
+    postgres:
+    pgadmin:
