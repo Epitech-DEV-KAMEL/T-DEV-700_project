@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: "traefik:v2.2"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api"
+      - "--metrics"
+      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.dnsresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.traefik.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.traefik.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.traefik.acme.tlschallenge=true"
+      - '--providers.file.filename=/run/traefik.toml'
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOST}`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=traefik"
+      - "traefik.http.services.traefik-service.loadbalancer.server.port=8080"
+      
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+      - "./conf/traefik.toml:/run/traefik.toml"
+
+    networks:
+      - cashmanager-net
+    restart: unless-stopped
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PASSWORD
+      POSTGRES_DB: $PG_DB
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - cashmanager-net
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: $PGADMIN_MAIL
+      PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PASSWORD
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - cashmanager-net
+    
+  api: 
+    build:
+      context: ./bank_server
+    ports:
+      - "4000:8080" 
+    depends_on: 
+      - postgres
+    networks:
+      - cashmanager-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`${TRAEFIK_HOST}`)&& PathPrefix(`/api`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.api.tls.certresolver=traefik"
+      - "traefik.docker.network=cashmanager-net"
+
+volumes:
+    postgres:
+    pgadmin:
+networks:
+  cashmanager-net:
+    external: true
