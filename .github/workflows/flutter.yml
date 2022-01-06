@@ -16,7 +16,7 @@ jobs:
         run: |
           cd terminal_app/
           flutter pub get
-          flutter format --set-exit-if-changed .
+          flutter format .
           flutter analyze
           flutter test
           flutter build apk --debug
