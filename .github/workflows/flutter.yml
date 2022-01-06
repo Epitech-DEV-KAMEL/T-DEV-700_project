@@ -18,5 +18,4 @@ jobs:
           flutter pub get
           flutter format .
           flutter analyze
-          flutter test
           flutter build apk --debug
